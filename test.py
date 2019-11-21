@@ -188,8 +188,10 @@ def get_id(img_path):
     for path, v in img_path:
         #filename = path.split('/')[-1]
         filename = os.path.basename(path)
-        label = filename[0:4]
-        camera = filename.split('c')[1]
+        #label = filename[0:4]
+        #camera = filename.split('c')[1]
+        label = "5194"
+        camera = "0007"
         if label[0:2]=='-1':
             labels.append(-1)
         else:

@@ -11,17 +11,31 @@ def evaluate(qf,ql,qc,gf,gl,gc):
     score = np.dot(gf,query)
     # predict index
     index = np.argsort(score)  #from small to large
+    print('index1')
+    print(index)
     index = index[::-1]
+    print('index:')
+    print(index)
     #index = index[0:2000]
     # good index
     query_index = np.argwhere(gl==ql)
-    camera_index = np.argwhere(gc==qc)
-
+    good_index = query_index
+    '''
+    print('query_index:')
+    print(query_index)
+    camera_index = np.argwhere(gc!=qc)
+    print('camera_index:')
+    print(camera_index)
     good_index = np.setdiff1d(query_index, camera_index, assume_unique=True)
+    print('good_index')
+    print(good_index)
     junk_index1 = np.argwhere(gl==-1)
     junk_index2 = np.intersect1d(query_index, camera_index)
     junk_index = np.append(junk_index2, junk_index1) #.flatten())
-    
+    print('junk_index')
+    print(junk_index)
+    '''
+    junk_index = []
     CMC_tmp = compute_mAP(index, good_index, junk_index)
     return CMC_tmp
 
