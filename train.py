@@ -382,5 +382,5 @@ if fp16:
 criterion = nn.CrossEntropyLoss()
 
 model = train_model(model, criterion, optimizer_ft, exp_lr_scheduler,
-                       num_epochs=1)
+                       num_epochs=40)
 

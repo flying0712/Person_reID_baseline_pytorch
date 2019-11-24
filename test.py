@@ -31,7 +31,7 @@ except ImportError: # will be 3.x series
 parser = argparse.ArgumentParser(description='Training')
 parser.add_argument('--gpu_ids',default='0', type=str,help='gpu_ids: e.g. 0  0,1,2  0,2')
 parser.add_argument('--which_epoch',default='last', type=str, help='0,1,2,3...or last')
-parser.add_argument('--test_dir',default='../Market/pytorch',type=str, help='./test_data')
+parser.add_argument('--test_dir',default='../my_data/pytorch',type=str, help='./test_data')
 parser.add_argument('--name', default='ft_ResNet50', type=str, help='save model path')
 parser.add_argument('--batchsize', default=256, type=int, help='batchsize')
 parser.add_argument('--use_dense', action='store_true', help='use densenet121' )
@@ -180,6 +180,7 @@ def extract_feature(model,dataloaders):
             ff = ff.div(fnorm.expand_as(ff))
 
         features = torch.cat((features,ff.data.cpu()), 0)
+        print(features.shape)
     return features
 
 def get_id(img_path):
@@ -190,7 +191,8 @@ def get_id(img_path):
         filename = os.path.basename(path)
         #label = filename[0:4]
         #camera = filename.split('c')[1]
-        label = "5194"
+        #label = "5194"
+        label = path.split("/")[-2]
         camera = "0007"
         if label[0:2]=='-1':
             labels.append(-1)
@@ -248,7 +250,11 @@ if use_gpu:
 # Extract feature
 with torch.no_grad():
     gallery_feature = extract_feature(model,dataloaders['gallery'])
+    print(gallery_feature.shape)
+    print(gallery_feature)
     query_feature = extract_feature(model,dataloaders['query'])
+    print(query_feature.shape)
+    print(query_feature)
     if opt.multi:
         mquery_feature = extract_feature(model,dataloaders['multi-query'])
     
